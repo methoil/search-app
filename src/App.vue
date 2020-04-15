@@ -10,16 +10,16 @@
 </template>
 
 <script>
-import { reactive, watch } from "@vue/composition-api";
+import { reactive, watchEffect } from "@vue/composition-api";
 import Header from "./components/Header.vue";
 import Search from "./components/Search.vue";
 import Movie from "./components/Movie.vue";
 
-const API_KEY = "a5549d08";
+const API_KEY = "c091ea39";
 
 export default {
   name: "app",
-  comonents: {
+  components: {
     Header,
     Search,
     Movie,
@@ -32,15 +32,15 @@ export default {
       errorMessage: null,
     });
 
-    watch(() => {
-      const MOVIE_API_URL = `https://www.ombapi.com/?s=${state.search}&apikey=${API_KEY}`;
+    watchEffect(() => {
+      const MOVIE_API_URL = `https://www.omdbapi.com/?s=${state.search}&apikey=${API_KEY}`;
 
-      fetch(MOVIE_API_URL)
-        .then(response => response.json())
-        .then(jsonRes => {
-          state.movies = jsonRes.Search;
-          state.loading = false;
-        });
+    fetch(MOVIE_API_URL)
+      .then(response => response.json())
+      .then(jsonResponse => {
+        state.movies = jsonResponse.Search;
+        state.loading = false;
+      });
     });
 
     return {
